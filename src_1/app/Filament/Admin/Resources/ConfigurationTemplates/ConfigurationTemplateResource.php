@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\ConfigurationTemplates;
 
 use App\Filament\Admin\Resources\ConfigurationTemplates\Pages\CreateConfigurationTemplate;
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
 
-class ConfigurationTemplateResource extends Resource
+final class ConfigurationTemplateResource extends Resource
 {
     protected static ?string $model = ConfigurationTemplate::class;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\ConfigurationTemplates\Schemas;
 
 use Filament\Forms\Components\Select;
@@ -12,7 +14,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class ConfigurationTemplateForm
+final class ConfigurationTemplateForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -76,7 +78,7 @@ class ConfigurationTemplateForm
                             ->required()
                             ->rows(14)
                             ->columnSpanFull()
-                            ->placeholder('/system identity set name={{router_name}}' . PHP_EOL . '/ip dns set servers={{dns_server}} allow-remote-requests=yes'),
+                            ->placeholder('/system identity set name={{router_name}}'.PHP_EOL.'/ip dns set servers={{dns_server}} allow-remote-requests=yes'),
 
                         TagsInput::make('variables')
                             ->label('Daftar Variable')

@@ -6,14 +6,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
-use App\Models\Deployment;
-use App\Models\MikrotikBackup;
-use App\Models\ConfigurationTemplate;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 final class User extends Authenticatable
 {
@@ -59,6 +56,30 @@ final class User extends Authenticatable
     }
 
     /**
+     * Template konfigurasi yang dibuat user.
+     */
+    public function configurationTemplates(): HasMany
+    {
+        return $this->hasMany(ConfigurationTemplate::class, 'created_by');
+    }
+
+    /**
+     * Deployment yang dijalankan user.
+     */
+    public function deployments(): HasMany
+    {
+        return $this->hasMany(Deployment::class, 'user_id');
+    }
+
+    /**
+     * Backup MikroTik yang dibuat user.
+     */
+    public function mikrotikBackups(): HasMany
+    {
+        return $this->hasMany(MikrotikBackup::class, 'created_by');
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -70,28 +91,4 @@ final class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    /**
- * Template konfigurasi yang dibuat user.
- */
-public function configurationTemplates(): HasMany
-{
-    return $this->hasMany(ConfigurationTemplate::class, 'created_by');
-}
-
-/**
- * Deployment yang dijalankan user.
- */
-public function deployments(): HasMany
-{
-    return $this->hasMany(Deployment::class, 'user_id');
-}
-
-/**
- * Backup MikroTik yang dibuat user.
- */
-public function mikrotikBackups(): HasMany
-{
-    return $this->hasMany(MikrotikBackup::class, 'created_by');
-}
 }

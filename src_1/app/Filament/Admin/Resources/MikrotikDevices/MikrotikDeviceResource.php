@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikDevices;
 
 use App\Filament\Admin\Resources\MikrotikDevices\Pages\CreateMikrotikDevice;
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
 
-class MikrotikDeviceResource extends Resource
+final class MikrotikDeviceResource extends Resource
 {
     protected static ?string $model = MikrotikDevice::class;
 

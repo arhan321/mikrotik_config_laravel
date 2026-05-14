@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\DeviceVariables\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -12,7 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class DeviceVariablesTable
+final class DeviceVariablesTable
 {
     public static function configure(Table $table): Table
     {

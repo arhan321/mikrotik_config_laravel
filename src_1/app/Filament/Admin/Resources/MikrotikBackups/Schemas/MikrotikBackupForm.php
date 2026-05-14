@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikBackups\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
@@ -10,7 +12,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
-class MikrotikBackupForm
+final class MikrotikBackupForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -33,7 +35,7 @@ class MikrotikBackupForm
 
                         TextInput::make('backup_name')
                             ->label('Nama Backup')
-                            ->default(fn (): string => 'backup-' . now()->format('Ymd-His'))
+                            ->default(fn (): string => 'backup-'.now()->format('Ymd-His'))
                             ->required()
                             ->maxLength(255),
 

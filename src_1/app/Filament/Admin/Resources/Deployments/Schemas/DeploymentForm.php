@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\Deployments\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
@@ -10,7 +12,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
-class DeploymentForm
+final class DeploymentForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -20,7 +22,7 @@ class DeploymentForm
                     ->schema([
                         TextInput::make('deployment_code')
                             ->label('Kode Deployment')
-                            ->default(fn (): string => 'DPLY-' . now()->format('YmdHis'))
+                            ->default(fn (): string => 'DPLY-'.now()->format('YmdHis'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),

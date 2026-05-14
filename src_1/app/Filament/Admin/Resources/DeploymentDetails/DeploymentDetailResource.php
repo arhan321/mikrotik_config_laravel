@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\DeploymentDetails;
 
 use App\Filament\Admin\Resources\DeploymentDetails\Pages\CreateDeploymentDetail;
@@ -15,7 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class DeploymentDetailResource extends Resource
+final class DeploymentDetailResource extends Resource
 {
     protected static ?string $model = DeploymentDetail::class;
 

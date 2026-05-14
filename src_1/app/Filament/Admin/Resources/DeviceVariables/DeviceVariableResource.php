@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\DeviceVariables;
 
 use App\Filament\Admin\Resources\DeviceVariables\Pages\CreateDeviceVariable;
@@ -15,7 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class DeviceVariableResource extends Resource
+final class DeviceVariableResource extends Resource
 {
     protected static ?string $model = DeviceVariable::class;
 

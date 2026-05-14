@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikDevices\Tables;
 
+use App\Services\MikrotikService;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -11,12 +15,13 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class MikrotikDevicesTable
+final class MikrotikDevicesTable
 {
     public static function configure(Table $table): Table
     {
@@ -49,12 +54,12 @@ class MikrotikDevicesTable
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (?string $state): string => match ($state) {
                         'online' => 'success',
                         'offline' => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'online' => 'Online',
                         'offline' => 'Offline',
                         default => 'Belum Dicek',
@@ -64,6 +69,14 @@ class MikrotikDevicesTable
                 TextColumn::make('routeros_version')
                     ->label('RouterOS')
                     ->toggleable(),
+
+                TextColumn::make('board_name')
+                    ->label('Board')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('architecture_name')
+                    ->label('Architecture')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('last_checked_at')
                     ->label('Terakhir Dicek')
@@ -89,6 +102,34 @@ class MikrotikDevicesTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
+                Action::make('test_connection')
+                    ->label('Test Connection')
+                    ->icon('heroicon-o-signal')
+                    ->color('info')
+                    ->requiresConfirmation()
+                    ->modalHeading('Test Connection MikroTik')
+                    ->modalDescription('Sistem akan mencoba konek ke MikroTik menggunakan RouterOS API.')
+                    ->modalSubmitActionLabel('Mulai Test')
+                    ->action(function ($record): void {
+                        $result = app(MikrotikService::class)->testConnection($record);
+
+                        if ($result['success'] === true) {
+                            Notification::make()
+                                ->title('Koneksi Berhasil')
+                                ->body($result['message'] ?? 'Laravel berhasil terhubung ke MikroTik.')
+                                ->success()
+                                ->send();
+
+                            return;
+                        }
+
+                        Notification::make()
+                            ->title('Koneksi Gagal')
+                            ->body($result['message'] ?? 'Laravel gagal terhubung ke MikroTik.')
+                            ->danger()
+                            ->send();
+                    }),
+
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),

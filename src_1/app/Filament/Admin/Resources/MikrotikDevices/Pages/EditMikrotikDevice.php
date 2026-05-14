@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikDevices\Pages;
 
 use App\Filament\Admin\Resources\MikrotikDevices\MikrotikDeviceResource;
@@ -9,7 +11,7 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditMikrotikDevice extends EditRecord
+final class EditMikrotikDevice extends EditRecord
 {
     protected static string $resource = MikrotikDeviceResource::class;
 

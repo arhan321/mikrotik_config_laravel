@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\ConfigurationTemplates\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -18,7 +20,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class ConfigurationTemplatesTable
+final class ConfigurationTemplatesTable
 {
     public static function configure(Table $table): Table
     {

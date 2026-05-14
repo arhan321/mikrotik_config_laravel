@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikBackups\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -11,7 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class MikrotikBackupsTable
+final class MikrotikBackupsTable
 {
     public static function configure(Table $table): Table
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\DeviceVariables\Schemas;
 
 use Filament\Forms\Components\Select;
@@ -9,7 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
-class DeviceVariableForm
+final class DeviceVariableForm
 {
     public static function configure(Schema $schema): Schema
     {

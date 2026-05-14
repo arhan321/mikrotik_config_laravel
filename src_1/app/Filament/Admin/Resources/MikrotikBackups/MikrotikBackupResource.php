@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\MikrotikBackups;
 
 use App\Filament\Admin\Resources\MikrotikBackups\Pages\CreateMikrotikBackup;
@@ -15,7 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class MikrotikBackupResource extends Resource
+final class MikrotikBackupResource extends Resource
 {
     protected static ?string $model = MikrotikBackup::class;
 
