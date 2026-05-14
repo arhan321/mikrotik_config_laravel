@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
-use App\Models\MikrotikDevice;
-use RouterOS\Client;
-use RouterOS\Query;
 use Throwable;
+use RouterOS\Query;
+use RouterOS\Client;
+use App\Models\MikrotikDevice;
 
-final class MikrotikService
+class MikrotikService
 {
     public function makeClient(MikrotikDevice $device): Client
     {
@@ -65,6 +63,113 @@ final class MikrotikService
                 'last_error' => $e->getMessage(),
             ]);
 
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'data' => null,
+            ];
+        }
+    }
+
+    public function getInterfaces(MikrotikDevice $device): array
+    {
+        try {
+            $client = $this->makeClient($device);
+
+            $response = $client
+                ->query(new Query('/interface/print'))
+                ->read();
+
+            return [
+                'success' => true,
+                'message' => 'Daftar interface berhasil diambil.',
+                'data' => $response,
+            ];
+        } catch (Throwable $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'data' => [],
+            ];
+        }
+    }
+
+    public function getIpAddresses(MikrotikDevice $device): array
+    {
+        try {
+            $client = $this->makeClient($device);
+
+            $response = $client
+                ->query(new Query('/ip/address/print'))
+                ->read();
+
+            return [
+                'success' => true,
+                'message' => 'Daftar IP address berhasil diambil.',
+                'data' => $response,
+            ];
+        } catch (Throwable $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'data' => [],
+            ];
+        }
+    }
+
+    public function addIpAddress(
+        MikrotikDevice $device,
+        string $address,
+        string $interface,
+        ?string $comment = null
+    ): array {
+        try {
+            $client = $this->makeClient($device);
+
+            $query = (new Query('/ip/address/add'))
+                ->equal('address', trim($address))
+                ->equal('interface', trim($interface));
+
+            if (filled($comment)) {
+                $query->equal('comment', trim($comment));
+            }
+
+            $response = $client
+                ->query($query)
+                ->read();
+
+            return [
+                'success' => true,
+                'message' => "IP {$address} berhasil ditambahkan ke {$interface}.",
+                'data' => $response,
+            ];
+        } catch (Throwable $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'data' => null,
+            ];
+        }
+    }
+
+    public function removeIpAddress(MikrotikDevice $device, string $id): array
+    {
+        try {
+            $client = $this->makeClient($device);
+
+            $response = $client
+                ->query(
+                    (new Query('/ip/address/remove'))
+                        ->equal('numbers', $id)
+                )
+                ->read();
+
+            return [
+                'success' => true,
+                'message' => 'IP address berhasil dihapus.',
+                'data' => $response,
+            ];
+        } catch (Throwable $e) {
             return [
                 'success' => false,
                 'message' => $e->getMessage(),
